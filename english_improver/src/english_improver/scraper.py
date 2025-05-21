@@ -9,7 +9,7 @@ from asyncio import gather
 
 
 class GutenbergScraper:
-    def __init__(self: Self, save_text_file_name: str):
+    def __init__(self: Self, save_text_file_name: str) -> None:
         self.text_url: str = "https://www.gutenberg.org/cache/epub/{id}/pg{id}.txt"
         self.save_text_file_name: str = save_text_file_name
         self.cache: Dict[str, int] = dict()
@@ -50,6 +50,6 @@ class GutenbergScraper:
             soup: BeautifulSoup = BeautifulSoup(await response.text(), "html.parser")
 
             with open(
-                f"{self.save_text_file_name}.txt", "w" if overwrite_file else "a"
+                self.save_text_file_name, "w" if overwrite_file else "a"
             ) as f:
                 f.write(soup.get_text())
