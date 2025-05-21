@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 from typing import List, Self, Dict
 from random import sample
-from asyncio import gather, run
+from asyncio import gather
 
 
 class GutenbergScraper:
