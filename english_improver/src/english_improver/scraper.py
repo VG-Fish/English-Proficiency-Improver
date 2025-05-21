@@ -53,12 +53,3 @@ class GutenbergScraper:
                 f"{self.save_text_file_name}.txt", "w" if overwrite_file else "a"
             ) as f:
                 f.write(soup.get_text())
-
-
-async def main() -> None:
-    scraper: GutenbergScraper = GutenbergScraper(save_text_file_name="data")
-    await scraper.save_book_texts(amount=1201)
-
-
-if __name__ == "__main__":
-    run(main())
