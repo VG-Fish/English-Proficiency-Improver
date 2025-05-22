@@ -6,7 +6,9 @@ from textwrap import fill
 
 
 class MarkovChainGenerator:
-    def __init__(self: Self, input_file_name: str, output_file_name: str, number_of_words: int) -> None:
+    def __init__(
+        self: Self, input_file_name: str, output_file_name: str, number_of_words: int
+    ) -> None:
         self.input_file_name: str = input_file_name
         self.output_file_name: str = output_file_name
         self.number_of_words = number_of_words
@@ -18,7 +20,9 @@ class MarkovChainGenerator:
         self._generate_dict()
         print(self.possibles)
 
-        self.word1, self.word2 = choice([k for k in self.possibles if k[0][:1].isupper()])
+        self.word1, self.word2 = choice(
+            [k for k in self.possibles if k[0][:1].isupper()]
+        )
         output: List[str] = [self.word1, self.word2]
         for _ in range(self.number_of_words):
             word = choice(self.possibles[(self.word1, self.word2)])
@@ -29,7 +33,9 @@ class MarkovChainGenerator:
             f.write(fill(" ".join(output)))
 
     def _generate_dict(self: Self) -> None:
-        words: SplitIterator[Str] = Str(File(self.input_file_name)).split_charset_iter(separator="\n\t\r ")
+        words: SplitIterator[Str] = Str(File(self.input_file_name)).split_charset_iter(
+            separator="\n\t\r "
+        )
 
         for word in words:
             if not word:
