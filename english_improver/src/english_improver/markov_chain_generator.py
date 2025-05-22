@@ -3,6 +3,7 @@ from stringzilla import Str, File, SplitIterator
 from collections import defaultdict
 from random import choice
 from textwrap import fill
+from constants import LINE_WIDTH
 
 
 class MarkovChainGenerator:
@@ -11,7 +12,7 @@ class MarkovChainGenerator:
     ) -> None:
         self.input_file_name: str = input_file_name
         self.output_file_name: str = output_file_name
-        self.number_of_words = number_of_words
+        self.number_of_words: int = number_of_words
         self.word1: str = ""
         self.word2: str = ""
         self.possibles: defaultdict = defaultdict(list)
@@ -30,7 +31,7 @@ class MarkovChainGenerator:
             self.word1, self.word2 = self.word2, word
 
         with open(self.output_file_name, "w" if overwrite_file else "a") as f:
-            f.write(fill(" ".join(output)))
+            f.write(fill(" ".join(output), width=LINE_WIDTH))
 
     def _generate_dict(self: Self) -> None:
         words: SplitIterator[Str] = Str(File(self.input_file_name)).split_charset_iter(
@@ -41,7 +42,7 @@ class MarkovChainGenerator:
             if not word:
                 continue
 
-            word = str(word)
+            word: str = str(word)
             self.possibles[(self.word1, self.word2)].append(word)
             self.word1, self.word2 = self.word2, word
 
