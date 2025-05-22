@@ -1,0 +1,1 @@
+# I created this project to address my declining English skills. First, this project scrapes through Project Gutenberg's books to get a-lot of text. Then, it uses a Markov Chain to generate random sentences, which will then be saved to a PDF file. Look at example_usage.py to see how to see some example usage.
