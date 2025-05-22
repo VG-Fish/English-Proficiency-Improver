@@ -1,17 +1,15 @@
 from requests import get, Response
 from aiohttp import ClientSession
-
 from bs4 import BeautifulSoup
-
 from typing import List, Self, Dict
 from random import sample
 from asyncio import gather
 
 
 class GutenbergScraper:
-    def __init__(self: Self, save_text_file_name: str) -> None:
+    def __init__(self: Self, output_file_name: str) -> None:
         self.text_url: str = "https://www.gutenberg.org/cache/epub/{id}/pg{id}.txt"
-        self.save_text_file_name: str = save_text_file_name
+        self.output_file_name: str = output_file_name
         self.cache: Dict[str, int] = dict()
 
     def get_random_ids(
@@ -34,15 +32,19 @@ class GutenbergScraper:
     async def save_book_texts(
         self: Self, amount: int, overwrite_file: bool = False
     ) -> None:
+        if overwrite_file:
+            with open(self.output_file_name, "w") as f:
+                f.close()
+
         async with ClientSession() as session:
             tasks = [
-                self._save_book_text(id, session, overwrite_file)
+                self._save_book_text(id, session)
                 for id in self.get_random_ids(length=amount)
             ]
             await gather(*tasks)
 
     async def _save_book_text(
-        self: Self, id: int, session: ClientSession, overwrite_file: bool = False
+        self: Self, id: int, session: ClientSession
     ) -> None:
         url: str = self.text_url.format(id=id)
 
@@ -50,6 +52,6 @@ class GutenbergScraper:
             soup: BeautifulSoup = BeautifulSoup(await response.text(), "html.parser")
 
             with open(
-                self.save_text_file_name, "w" if overwrite_file else "a"
+                self.output_file_name, "a"
             ) as f:
                 f.write(soup.get_text())

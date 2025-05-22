@@ -19,7 +19,6 @@ class MarkovChainGenerator:
 
     def generate_text(self: Self, overwrite_file: bool = False) -> None:
         self._generate_dict()
-        print(self.possibles)
 
         self.word1, self.word2 = choice(
             [k for k in self.possibles if k[0][:1].isupper()]

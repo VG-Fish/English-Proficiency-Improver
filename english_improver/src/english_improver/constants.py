@@ -1,1 +1,1 @@
-LINE_WIDTH: int = 80
+LINE_WIDTH: int = 192
